@@ -24,7 +24,7 @@ public class TaskController {
 
 	@Autowired
 	private TaskService taskService;
-	private Logger logger = Logger.getLogger("TaskController");
+	private Logger logger = Logger.getLogger(TaskController.class);
 
 	@RequestMapping(value="/addTask", method=RequestMethod.POST, consumes = "application/json; charset=utf-8", 
 			produces = "application/json; charset=utf-8")

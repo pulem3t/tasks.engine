@@ -24,7 +24,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	private Logger logger = Logger.getLogger("UserController");
+	private Logger logger = Logger.getLogger(UserController.class);
 
 	@RequestMapping(value="/addUser", method=RequestMethod.POST, consumes = "application/json; charset=utf-8", 
 			produces = "application/json; charset=utf-8")

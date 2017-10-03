@@ -22,7 +22,7 @@ public class CommentController {
 
 	@Autowired
 	private CommentService commentService;
-	private Logger logger = Logger.getLogger("CommentController");
+	private Logger logger = Logger.getLogger(CommentController.class);
 
 	@RequestMapping(value="/addComment", method=RequestMethod.POST, consumes = "application/json; charset=utf-8", 
 			produces = "application/json; charset=utf-8")
