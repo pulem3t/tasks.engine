@@ -23,18 +23,15 @@ public class TaskService {
 	
 	public String addTask(String json) {
 		
-		JSONObject o = new JSONObject(json);
+		JSONObject o = new JSONObject(json).getJSONObject("task");
 		Task task = new Task();
 		task.setAuthor(userDAO.getUser(o.getString("authorId")));
 		task.setDeadLine(o.getLong("deadLine"));
 		task.setDescription(o.getString("description"));
-		if(!o.getString("parentTaskid").equals("")) {
-			task.setParentTask(taskDAO.getTask(o.getString("parentTaskid")));
-		}
 		task.setPerformerId(userDAO.getUser(o.getString("performerId")));
 		task.setPrefix(o.getString("prefix"));
 		task.setPriority(o.getInt("priority"));
-		task.setStatus(o.getInt("status"));
+		//task.setStatus(o.getInt("status"));
 		task.setTitle(o.getString("title"));
 		return taskDAO.addTask(task);
 	}
@@ -46,15 +43,12 @@ public class TaskService {
 
 	public void updateTask(String json) {
 
-		JSONObject o = new JSONObject(json);
+		JSONObject o = new JSONObject(json).getJSONObject("task");
 		Task task = new Task();
 		task.setId(o.getString("id"));
 		task.setAuthor(userDAO.getUser(o.getString("authorId")));
 		task.setDeadLine(o.getLong("deadLine"));
 		task.setDescription(o.getString("description"));
-		if(!o.getString("parentTaskid").equals("")) {
-			task.setParentTask(taskDAO.getTask(o.getString("parentTaskid")));
-		}
 		task.setPerformerId(userDAO.getUser(o.getString("performerId")));
 		task.setPrefix(o.getString("prefix"));
 		task.setPriority(o.getInt("priority"));

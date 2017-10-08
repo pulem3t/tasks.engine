@@ -1,9 +1,7 @@
 package org.pulem3t.tasks.adapter;
 
-import org.pulem3t.tasks.dao.TaskDAO;
 import org.pulem3t.tasks.dao.UserDAO;
 import org.pulem3t.tasks.entry.Task;
-import org.pulem3t.tasks.entry.User;
 import org.pulem3t.tasks.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,13 +9,10 @@ public class TaskAdapter {
 
 	@Autowired
 	private UserDAO userDAO;
-	@Autowired
-	private TaskDAO taskDAO;
 	private String id;
 	private String prefix;
 	private String title;
 	private String authorId;
-	private String parentTaskId;
 	private String performerId;
 	private String description;
 	private int status;
@@ -31,7 +26,6 @@ public class TaskAdapter {
 		this.prefix = "";
 		this.title = "";
 		this.authorId = "";
-		this.parentTaskId = "";
 		this.performerId = "";
 		this.description = "";
 		this.status = Status.NEW.getStatus();
@@ -50,7 +44,6 @@ public class TaskAdapter {
 		t.setDescription(description);
 		t.setId(authorId);
 		t.setLastmodDate(lastmodDate);
-		t.setParentTask(taskDAO.getTask(parentTaskId));
 		t.setPerformerId(userDAO.getUser(performerId));
 		t.setPrefix(prefix);
 		t.setPriority(priority);
@@ -82,12 +75,6 @@ public class TaskAdapter {
 	}
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
-	}
-	public String getParentTaskId() {
-		return parentTaskId;
-	}
-	public void setParentTaskId(String parentTaskId) {
-		this.parentTaskId = parentTaskId;
 	}
 	public String getPerformerId() {
 		return performerId;

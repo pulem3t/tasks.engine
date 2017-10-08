@@ -103,7 +103,6 @@ public class TaskController {
 			t.put("prefix", task.getPrefix());
 			t.put("title", task.getTitle());
 			t.put("authorId", task.getAuthor().getId());
-			t.put("parentTaskId", task.getParentTask().getId());
 			t.put("performerId", task.getPerformer().getId());
 			t.put("description", task.getDescription());
 			t.put("status", task.getStatus());

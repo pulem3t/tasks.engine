@@ -16,6 +16,8 @@ public class TaskDAOCrateDB implements TaskDAO {
 
 	@Autowired
 	private CrateDBConfig config;
+	@Autowired
+	private TaskRowMapper taskMapper;
 	private Logger logger = Logger.getLogger(TaskDAOCrateDB.class);
 	
 	@Override
@@ -27,7 +29,7 @@ public class TaskDAOCrateDB implements TaskDAO {
 		logger.debug(SQL_GET_TASKS);
 		List<Task> taskList = new ArrayList<>();
 		try {
-			taskList = config.getNpjt().query(SQL_GET_TASKS, new MapSqlParameterSource(), new TaskRowMapper());
+			taskList = config.getNpjt().query(SQL_GET_TASKS, new MapSqlParameterSource(), taskMapper);
 		} catch (Exception e) {
 			logger.error(null, e);
 		}
@@ -38,14 +40,14 @@ public class TaskDAOCrateDB implements TaskDAO {
 	public Task getTask(String id) {
 		
 		String SQL_GET_TASK_BY_ID = "SELECT author_id, createdate, deadline, description, "
-				+ "id, lastmoddate, parenttask_id, performer_id, prefix, priority, status, title " + 
+				+ "id, lastmoddate, performer_id, prefix, priority, status, title " + 
 				"FROM doc.tasks WHERE id=:ID";
 		MapSqlParameterSource map = new MapSqlParameterSource();
 		map.addValue("ID", id);
 		logger.debug(SQL_GET_TASK_BY_ID);
 		logger.debug(map.getValues());
 		try {
-			return config.getNpjt().queryForObject(SQL_GET_TASK_BY_ID, map,  new TaskRowMapper());
+			return config.getNpjt().queryForObject(SQL_GET_TASK_BY_ID, map, taskMapper);
 		} catch (Exception e) {
 			logger.error(null, e);
 			return null;
@@ -56,12 +58,12 @@ public class TaskDAOCrateDB implements TaskDAO {
 	public List<Task> getLastAddedTasks() {
 		
 		String SQL_GET_LAST_TASKS = "SELECT author_id, createdate, deadline, description, "
-				+ "id, lastmoddate, parenttask_id, performer_id, prefix, priority, status, title " + 
+				+ "id, lastmoddate, performer_id, prefix, priority, status, title " + 
 				"FROM doc.tasks ORDER BY createdate DESC LIMIT 10";
 		logger.debug(SQL_GET_LAST_TASKS);
 		List<Task> taskList = new ArrayList<>();
 		try {
-			taskList = config.getNpjt().query(SQL_GET_LAST_TASKS, new MapSqlParameterSource(),  new TaskRowMapper());
+			taskList = config.getNpjt().query(SQL_GET_LAST_TASKS, new MapSqlParameterSource(), taskMapper);
 		} catch (Exception e) {
 			logger.error(null, e);
 		}
@@ -72,10 +74,10 @@ public class TaskDAOCrateDB implements TaskDAO {
 	public String addTask(Task task) {
 		
 		String SQL_INSERT_TASK = "INSERT INTO doc.tasks " + 
-				"(author_id, createdate, deadline, description, id, lastmoddate, parenttask_id, "
+				"(author_id, createdate, deadline, description, id, lastmoddate, "
 				+ "performer_id, prefix, priority, status, title) "
 				+ "VALUES(:AUTHOR_ID, :CREATEDATE, :DEADLINE, :DESCRIPTION, :ID, :LASTMODDATE, "
-				+ ":PARENTTASK_ID, :PERFORMER_ID, :PREFIX, :PRIORITY, :STATUS, :TITLE)";
+				+ ":PERFORMER_ID, :PREFIX, :PRIORITY, :STATUS, :TITLE)";
 		MapSqlParameterSource map = new MapSqlParameterSource();
 		String guid = UUID.randomUUID().toString();
 		map.addValue("ID", guid);
@@ -84,7 +86,6 @@ public class TaskDAOCrateDB implements TaskDAO {
 		map.addValue("DEADLINE", task.getDeadLine());
 		map.addValue("DESCRIPTION", task.getDescription());
 		map.addValue("LASTMODDATE", task.getLastmodDate());
-		map.addValue("PARENTTASK_ID", task.getParentTask().getId());
 		map.addValue("PERFORMER_ID", task.getPerformer().getId());
 		map.addValue("PREFIX", task.getPrefix());
 		map.addValue("PRIORITY", task.getPriority());
@@ -129,7 +130,7 @@ public class TaskDAOCrateDB implements TaskDAO {
 	public void updateTask(Task task) {
 		
 		String SQL_UPDATE_TASK = "UPDATE doc.tasks SET author_id=:AUTHOR_ID, deadline=:DEADLINE, description=:DESCRIPTION, "
-				+ "lastmoddate=:LASTMODDATE, parenttask_id=:PARENTTASK_ID, performer_id=:PERFORMER_ID, prefix=:PREFIX, "
+				+ "lastmoddate=:LASTMODDATE, performer_id=:PERFORMER_ID, prefix=:PREFIX, "
 				+ "priority=:PRIORITY, status=:STATUS, title=:TITLE WHERE id=:ID";
 		MapSqlParameterSource map = new MapSqlParameterSource();
 		map.addValue("ID", task.getId());
@@ -137,7 +138,6 @@ public class TaskDAOCrateDB implements TaskDAO {
 		map.addValue("DEADLINE", task.getDeadLine());
 		map.addValue("DESCRIPTION", task.getDescription());
 		map.addValue("LASTMODDATE", task.getLastmodDate());
-		map.addValue("PARENTTASK_ID", task.getParentTask().getId());
 		map.addValue("PERFORMER_ID", task.getPerformer().getId());
 		map.addValue("PREFIX", task.getPrefix());
 		map.addValue("PRIORITY", task.getPriority());

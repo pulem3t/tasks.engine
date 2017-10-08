@@ -19,7 +19,7 @@ public class UserService {
 	
 	public String addUser(String json) {
 		
-		JSONObject o = new JSONObject(json);
+		JSONObject o = new JSONObject(json).getJSONObject("user");
 		User user = new User();
 		user.setAdminRole(o.getBoolean("adminRole"));
 		user.setCompany(o.getString("company"));
@@ -50,7 +50,7 @@ public class UserService {
 
 	public void updateUser(String json) {
 
-		JSONObject o = new JSONObject(json);
+		JSONObject o = new JSONObject(json).getJSONObject("user");
 		User user = new User();
 		user.setAdminRole(o.getBoolean("adminRole"));
 		user.setCompany(o.getString("company"));

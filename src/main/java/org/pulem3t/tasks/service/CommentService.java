@@ -36,7 +36,7 @@ public class CommentService {
 	
 	public String addComment(String json) {
 		
-		JSONObject o = new JSONObject(json);
+		JSONObject o = new JSONObject(json).getJSONObject("comment");
 		Comment comment = new Comment();
 		comment.setAuthor(userDAO.getUser(o.getString("authorId")));
 		comment.setRating(o.getInt("rating"));
@@ -60,7 +60,7 @@ public class CommentService {
 	
 	public void updateComment(String json) {
 		
-		JSONObject o = new JSONObject(json);
+		JSONObject o = new JSONObject(json).getJSONObject("comment");
 		Comment comment = new Comment();
 		comment.setId(o.getString("id"));
 		comment.setAuthor(userDAO.getUser(o.getString("authorId")));
