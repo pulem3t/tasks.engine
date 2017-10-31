@@ -28,7 +28,7 @@ public class TaskService {
 		task.setAuthor(userDAO.getUser(o.getString("authorId")));
 		task.setDeadLine(o.getLong("deadLine"));
 		task.setDescription(o.getString("description"));
-		task.setPerformerId(userDAO.getUser(o.getString("performerId")));
+		task.setPerformer(userDAO.getUser(o.getString("performerId")));
 		task.setPrefix(o.getString("prefix"));
 		task.setPriority(o.getInt("priority"));
 		//task.setStatus(o.getInt("status"));
@@ -49,7 +49,7 @@ public class TaskService {
 		task.setAuthor(userDAO.getUser(o.getString("authorId")));
 		task.setDeadLine(o.getLong("deadLine"));
 		task.setDescription(o.getString("description"));
-		task.setPerformerId(userDAO.getUser(o.getString("performerId")));
+		task.setPerformer(userDAO.getUser(o.getString("performerId")));
 		task.setPrefix(o.getString("prefix"));
 		task.setPriority(o.getInt("priority"));
 		task.setStatus(o.getInt("status"));

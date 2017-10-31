@@ -94,28 +94,13 @@ public class TaskDAOHibernate implements TaskDAO {
 			builder = session.getCriteriaBuilder();
 			tx = session.getTransaction();
 			session.beginTransaction();
-			Comparator<Task> c = new Comparator<Task>() {
-				public int compare(Task o1, Task o2) {
-					if(o1.getCreateDate() <= o2.getCreateDate()){
-						return 1;
-					}else{
-						return -1;
-					}
-
-				}	
-			};
+			Comparator<Task> c = (Task o1, Task o2) -> (o1.getCreateDate() <= o2.getCreateDate()) ? 1: -1;
 			query = builder.createQuery(Task.class);
 			List<Task> tasklist = session.createQuery(query).getResultList();
 			tx.commit();
 			session.close();
-			tasklist.sort(c);
 			lastTenList = new ArrayList<Task>();
-			Iterator<Task> it = tasklist.iterator();
-			int i = 0;
-			while(it.hasNext() && i < 10) {
-				lastTenList.add(it.next());
-				i++;
-			}
+			tasklist.stream().sorted(c).limit(10).forEach(lastTenList::add);
 		} catch (Exception e) {
 			logger.error(null, e);
 			if (tx != null) {

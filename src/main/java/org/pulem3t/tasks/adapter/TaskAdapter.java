@@ -5,21 +5,24 @@ import org.pulem3t.tasks.entry.Task;
 import org.pulem3t.tasks.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class TaskAdapter {
 
 	@Autowired
 	private UserDAO userDAO;
-	private String id;
-	private String prefix;
-	private String title;
-	private String authorId;
-	private String performerId;
-	private String description;
-	private int status;
-	private int priority;
-	private long createDate;
-	private long lastmodDate;
-	private long deadLine;
+	@Getter @Setter private String id;
+	@Getter @Setter private String prefix;
+	@Getter @Setter private String title;
+	@Getter @Setter private String authorId;
+	@Getter @Setter private String performerId;
+	@Getter @Setter private String description;
+	@Getter @Setter private int status;
+	@Getter @Setter private int priority;
+	@Getter @Setter private long createDate;
+	@Getter @Setter private long lastmodDate;
+	@Getter @Setter private long deadLine;
 	
 	public TaskAdapter() {
 		this.id = "";
@@ -44,78 +47,11 @@ public class TaskAdapter {
 		t.setDescription(description);
 		t.setId(authorId);
 		t.setLastmodDate(lastmodDate);
-		t.setPerformerId(userDAO.getUser(performerId));
+		t.setPerformer(userDAO.getUser(performerId));
 		t.setPrefix(prefix);
 		t.setPriority(priority);
 		t.setStatus(status);
 		t.setTitle(title);
 		return t;
-	}
- 
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getPrefix() {
-		return prefix;
-	}
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getAuthorId() {
-		return authorId;
-	}
-	public void setAuthorId(String authorId) {
-		this.authorId = authorId;
-	}
-	public String getPerformerId() {
-		return performerId;
-	}
-	public void setPerformerId(String performerId) {
-		this.performerId = performerId;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	public int getPriority() {
-		return priority;
-	}
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
-	public long getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(long createDate) {
-		this.createDate = createDate;
-	}
-	public long getLastmodDate() {
-		return lastmodDate;
-	}
-	public void setLastmodDate(long lastmodDate) {
-		this.lastmodDate = lastmodDate;
-	}
-	public long getDeadLine() {
-		return deadLine;
-	}
-	public void setDeadLine(long deadLine) {
-		this.deadLine = deadLine;
 	}
 }
